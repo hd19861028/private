@@ -1,0 +1,21 @@
+<div class="app-bar fixed-top darcula" data-role="appbar">
+	<a class="app-bar-element branding">南屏科技工业园党群服务中心</a>
+	<span class="app-bar-divider"></span>
+	<ul class="app-bar-menu">
+		<li ng-click="SelectModule(m.id)" ng-repeat="m in menus"><a href="">{{m.name}}</a></li>
+	</ul>
+
+	<div class="app-bar-element place-right">
+		<span class="dropdown-toggle"><span class="mif-cog"></span>管理员</span>
+		<div class="app-bar-drop-container padding10 place-right no-margin-top block-shadow fg-dark" data-role="dropdown" data-no-close="true" style="width: 220px">
+			<ul class="unstyled-list fg-dark">
+				<li><a href="/resetpwd.html" class="fg-white2 fg-hover-yellow">修改密码</a></li>
+			</ul>
+		</div>
+	</div>
+	<div class="app-bar-pullbutton automatic" style="display: none;"></div>
+	<div class="clearfix" style="width: 0;"></div>
+	<nav class="app-bar-pullmenu hidden flexstyle-app-bar-menu" style="display: none;">
+		<ul class="app-bar-pullmenubar hidden app-bar-menu"></ul>
+	</nav>
+</div>

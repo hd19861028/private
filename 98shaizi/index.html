@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html manifest="index.manifest">
+
+	<head>
+		<meta charset="UTF-8">
+		<title>摇骰子</title>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+		<meta name="viewport" content="width=device-width,minimum-scale=1,maximum-scale=1,initial-scale=1,user-scalable=no" />
+		<link rel="stylesheet" href="css/main.css" />
+		<style id="dynamic"></style>
+	</head>
+
+	<body>
+		<div am-repeat="info.counts" style="visibility: hidden;">
+			<div class="container" template='template/6point.html'></div>
+		</div>
+		<div class="start">
+			<input type="button" value="点击摇骰子" onclick="start()">
+		</div>
+		<div id="mask" onclick="startGame(this)">
+			<span>点击开始</span>
+		</div>
+		<audio id="music" style="display: none;">
+			<source src="music.mp3"></source>
+		</audio>
+		<script type="text/javascript" src="js/angular.js"></script>
+		<script type="text/javascript" src="js/index.js" ></script>
+	</body>
+
+</html>

@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html xmlns:ng="http://angularjs.org" id="ng-app" ng-app="app" class="ng-app:app">
+
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+		<link rel="shortcut icon" type="image/x-icon" href="http://metroui.org.ua/favicon.ico">
+
+		<title>南屏科技工业园党群服务中心</title>
+
+		<link href="css/metro.css" rel="stylesheet">
+		<link href="css/metro-icons.css" rel="stylesheet">
+		<link href="css/metro-responsive.css" rel="stylesheet">
+		<link href="css/main.css" rel="stylesheet">
+
+		<script src="lib/jquery.js"></script>
+		<script src="lib/jquery.dataTables.min.js"></script>
+		<script src="lib/metro.js"></script>
+		<script src="lib/angular.js" ></script>
+		<script src="lib/common.js"></script>
+		<script src="lib/app.js"></script>
+		<script src="js/factory.js"></script>
+		<script src="js/base.js"></script>
+
+	</head>
+
+	<body class="bg-steel" ng-controller="BaseController">
+		<div ng-include="'/template/header.html'"></div>
+
+		<div class="page-content">
+			<div class="flex-grid no-responsive-future" style="height: 100%;">
+				<div class="row" style="height: 100%">
+					<div class="cell size-x200" id="cell-sidebar" style="background-color: #71b1d1; height: 100%">
+						<ul class="sidebar">
+							<li ng-repeat="s in sliders" ng-click="SelectSlider(s.id)" class="{{s.active?'active':''}}">
+								<a href="{{s.url}}">
+									<span class="title">{{s.name}}</span>
+								</a>
+							</li>
+						</ul>
+					</div>
+					<div class="cell auto-size padding20 bg-white" id="cell-content">
+						<h1 class="text-light">{{selectedSlider.name}}</h1>
+						<hr class="thin bg-grayLighter">
+						<button class="button primary" ng-click="Add()"><span class="mif-plus"></span>新增</button>
+						<button class="button alert" ng-click="Delete()">删除</button>
+						<hr class="thin bg-grayLighter">
+
+						<table class="dataTable border bordered no-footer" id="DataTables_Table_0" role="grid">
+							<thead>
+								<tr>
+									<td style="width: 20px; text-align: center;">
+										<label class="input-control checkbox small-check no-margin">
+		                                    <input type="checkbox" ng-click="CheckAll()">
+		                                    <span class="check"></span>
+		                                </label>
+									</td>
+									<td style="width: 50px; text-align: center;" align="center">ID</td>
+									<td style="text-align: center;">标题</td>
+									<td style="width: 200px; text-align: center;">更新时间</td>
+									<td style="width: 100px"></td>
+								</tr>
+							</thead>
+							<tbody>
+								<tr role="row" ng-repeat="item in news">
+									<td>
+										<label class="input-control checkbox small-check no-margin">
+		                                    <input type="checkbox" ng-checked="item.active" ng-click="Check(item.id)">
+		                                    <span class="check"></span>
+		                                </label>
+									</td>
+									<td align="center">{{item.id}}</td>
+									<td>{{item.title}}</td>
+									<td align="center">{{item.updatetime|date:'yyyy-MM-dd HH:mm:ss'}}</td>
+									<td><button class="button info" ng-click="Edit(item.id)">编辑</button></td>
+								</tr>
+							</tbody>
+						</table>
+						<div pagination size="{{size}}" total="{{total}}" method="loadList"></div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</body>
+
+</html>

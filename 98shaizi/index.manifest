@@ -1,0 +1,11 @@
+﻿CACHE MANIFEST
+#v0.1.16
+CACHE:
+index.html
+music.mp3
+js/angular.js
+js/index.js
+css/main.css
+template/6point.html
+NETWORK:
+*

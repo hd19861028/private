@@ -81,16 +81,30 @@ app.get("/news/detail", function(req, res) {
 function deleteImage(rows) {
 	for (var i = 0; i < rows.length; i++) {
 		var originUrl = path.join(global.config.upload_temp, rows[i].image);
+		var originUrl1 = path.join(global.config.upload_temp, rows[i].image1);
+		var originUrl2 = path.join(global.config.upload_temp, rows[i].image2);
 		try {
 			fs.unlink(originUrl, function() {})
+			fs.unlink(originUrl1, function() {})
+			fs.unlink(originUrl2, function() {})
 		} catch (e) {}
 	}
+}
+
+function deleteOneImage(img) {
+	var originUrl = path.join(global.config.upload_temp, img || '');
+	try {
+		fs.unlink(originUrl, function() {})
+	} catch (e) {}
 }
 
 app.post("/news/save", function(req, res) {
 	common.upload_file(req, res, function(fields, files) {
 		fields.content = decodeURIComponent(fields.content);
+		
 		fields.image = files.length > 0 ? files[0].file.file_name : '';
+		fields.image1 = files.length > 1 && files[1] ? files[1].file.file_name : '';
+		fields.image2 = files.length > 2 && files[2] ? files[2].file.file_name : '';
 		fields.id = +fields.id;
 
 		if (fields.id > 0) {
@@ -107,9 +121,19 @@ app.post("/news/save", function(req, res) {
 				var rows = d.rows;
 				if (rows && rows.length > 0) {
 					if (fields.image) {
-						deleteImage(rows);
+						deleteOneImage(rows[0].image);
 					} else {
 						fields.image = rows[0].image;
+					}
+					if (fields.image1) {
+						deleteOneImage(rows[0].image1);
+					} else {
+						fields.image1 = rows[0].image1;
+					}
+					if (fields.image2) {
+						deleteOneImage(rows[0].image2);
+					} else {
+						fields.image2 = rows[0].image2;
 					}
 				}
 				req.emit('toSave', fields)
@@ -123,13 +147,13 @@ app.post("/news/save", function(req, res) {
 		var params = [];
 		var now = Date.now();
 		if (fields.id == 0) {
-			sql = 'insert into tbl_news(type,title,content,image,createtime,updatetime,footer) values(?,?,?,?,?,?,?)';
-			params = [fields.type, fields.title, fields.content, fields.image, now, now, fields.footer]
+			sql = 'insert into tbl_news(type,title,content,image,image1,image2,createtime,updatetime,footer) values(?,?,?,?,?,?,?,?,?)';
+			params = [fields.type, fields.title, fields.content, fields.image, fields.image1, fields.image2, now, now, fields.footer]
 		} else {
-			sql = 'update tbl_news set title=?,content=?,image=?,updatetime=?,footer=? where id=?';
-			params = [fields.title, fields.content, fields.image, now, fields.footer, fields.id]
+			sql = 'update tbl_news set title=?,content=?,image=?,image1=?,image2=?,updatetime=?,footer=? where id=?';
+			params = [fields.title, fields.content, fields.image, fields.image1, fields.image2, now, fields.footer, fields.id]
 		}
-
+			
 		db.query(sql, params)
 			.then(function(d) {
 				if (d.rows && (d.rows.insertId > 0 || d.rows.changedRows > 0)) {

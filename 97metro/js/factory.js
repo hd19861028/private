@@ -98,6 +98,12 @@ app.factory('BaseService', ['$q', '$http',
 			if ($('#file')[0].files.length > 0) {
 				fd.append("image", $('#file')[0].files[0]);
 			}
+			if ($('#file1')[0].files.length > 0) {
+				fd.append("image1", $('#file1')[0].files[0]);
+			}
+			if ($('#file2')[0].files.length > 0) {
+				fd.append("image2", $('#file2')[0].files[0]);
+			}
 
 			var oReq = new XMLHttpRequest();
 			oReq.open("POST", "/api/news/save/", true);

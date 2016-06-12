@@ -146,14 +146,6 @@ app.controller('BaseController', ['$scope', 'BaseService',
 		$scope.Save = function() {
 			var content = $('#ueditor_0').contents().find('body').html();
 			
-			if (!$scope.news.title) {
-				pushMessage('错误', '标题不能为空', 4)
-				return;
-			}
-			if (!content) {
-				pushMessage('错误', '正文不能为空', 4)
-				return;
-			}
 			if ($('#file')[0].files.length == 0 && itemid == "0") {
 				pushMessage('错误', '必须选择一张图片', 4)
 				return;

@@ -15,7 +15,7 @@ app.get("/news", function(req, res) {
 		'Access-Control-Allow-Origin': '*'
 	});
 	var type = +req.query.id;
-	var sql = 'select id,title,updatetime from tbl_news where type=? order by updatetime desc limit ?,?;select count(id) as `total` from tbl_news where type=?';
+	var sql = 'select id,title,updatetime from tbl_news where type=? order by createtime asc limit ?,?;select count(id) as `total` from tbl_news where type=?';
 	var index = +req.query.index;
 	var size = +(req.query.size || "10");
 	var param = [type, (index - 1) * size, size, type];
@@ -40,7 +40,7 @@ app.get("/news/list", function(req, res) {
 	if (!name) {
 		res.status(403).send('尚未登录')
 	} else {
-		var sql = 'select id,title,updatetime,footer from tbl_news where type=? order by updatetime desc limit ?,?;select count(id) as `total` from tbl_news where type=?';
+		var sql = 'select id,title,updatetime,footer from tbl_news where type=? order by createtime asc limit ?,?;select count(id) as `total` from tbl_news where type=?';
 		var index = +req.query.index;
 		var size = +(req.query.size || "10");
 		var param = [req.query.type, (index - 1) * size, size, req.query.type];
@@ -80,9 +80,9 @@ app.get("/news/detail", function(req, res) {
 
 function deleteImage(rows) {
 	for (var i = 0; i < rows.length; i++) {
-		var originUrl = path.join(global.config.upload_temp, rows[i].image);
-		var originUrl1 = path.join(global.config.upload_temp, rows[i].image1);
-		var originUrl2 = path.join(global.config.upload_temp, rows[i].image2);
+		var originUrl = path.join(global.config.upload_path, rows[i].image);
+		var originUrl1 = path.join(global.config.upload_path, rows[i].image1);
+		var originUrl2 = path.join(global.config.upload_path, rows[i].image2);
 		try {
 			fs.unlink(originUrl, function() {})
 			fs.unlink(originUrl1, function() {})
@@ -92,7 +92,7 @@ function deleteImage(rows) {
 }
 
 function deleteOneImage(img) {
-	var originUrl = path.join(global.config.upload_temp, img || '');
+	var originUrl = path.join(global.config.upload_path, img || '');
 	try {
 		fs.unlink(originUrl, function() {})
 	} catch (e) {}

@@ -92,7 +92,7 @@ app.factory('BaseService', ['$q', '$http',
 			var fd = new FormData(document.forms.namedItem("frm"));
 			fd.append('id', id);
 			fd.append('type', type)
-			fd.append('title', title)
+			fd.append('title', title||'')
 			fd.append('footer', footer)
 			fd.append("content", encodeURIComponent(content));
 			if ($('#file')[0].files.length > 0) {

@@ -10,6 +10,18 @@ var app = express();
 
 exports = module.exports;
 
+app.get('/news/type', function(req, res) {
+	var sql = 'select * from tbl_news where type=? order by updatetime desc limit 0,3';
+	var param = [req.query.type];
+	db.query(sql, param)
+		.then(function(d) {
+			res.json(d.rows)
+		}, function(e) {
+			console.log(e)
+			e.WriteLog();
+		})
+})
+
 app.get("/news", function(req, res) {
 	res.set({
 		'Access-Control-Allow-Origin': '*'
@@ -101,7 +113,7 @@ function deleteOneImage(img) {
 app.post("/news/save", function(req, res) {
 	common.upload_file(req, res, function(fields, files) {
 		fields.content = decodeURIComponent(fields.content);
-		
+
 		fields.image = files.length > 0 ? files[0].file.file_name : '';
 		fields.image1 = files.length > 1 && files[1] ? files[1].file.file_name : '';
 		fields.image2 = files.length > 2 && files[2] ? files[2].file.file_name : '';
@@ -153,7 +165,7 @@ app.post("/news/save", function(req, res) {
 			sql = 'update tbl_news set title=?,content=?,image=?,image1=?,image2=?,updatetime=?,footer=? where id=?';
 			params = [fields.title, fields.content, fields.image, fields.image1, fields.image2, now, fields.footer, fields.id]
 		}
-			
+
 		db.query(sql, params)
 			.then(function(d) {
 				if (d.rows && (d.rows.insertId > 0 || d.rows.changedRows > 0)) {

@@ -2,4 +2,4 @@
 
 
 
-start
+start cmd /c "%CuttentPath%node api"
